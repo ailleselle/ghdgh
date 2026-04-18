@@ -1,127 +1,85 @@
-# ghdgh
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You</title>
+<title></title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
   height:100vh;
-  overflow:hidden;
   display:flex;
   justify-content:center;
   align-items:center;
-  background: linear-gradient(270deg, #1a0033, #3a0ca3, #7209b7);
-  background-size: 600% 600%;
-  animation: gradientMove 10s ease infinite;
+  background:#0f0c29;
+  font-family:Arial, sans-serif;
   color:white;
-}
-
-@keyframes gradientMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-
-.screen{
-  position:absolute;
   text-align:center;
+}
+
+/* Убираем всё лишнее */
+h1,h2,p{margin:0}
+
+.container{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  align-items:center;
+}
+
+.text{
+  font-size:clamp(1.5rem,6vw,2.2rem);
   opacity:0;
-  transform:scale(0.95);
-  transition:all 0.7s ease;
-}
-
-.show{
-  opacity:1;
-  transform:scale(1);
-}
-
-h2{
-  font-size:clamp(1.8rem,6vw,2.5rem);
-  margin-bottom:20px;
+  animation:fadeIn 1s forwards;
 }
 
 button{
-  margin:10px;
-  padding:14px 26px;
+  padding:14px 28px;
   border:none;
-  border-radius:16px;
-  background:rgba(255,255,255,0.15);
+  border-radius:14px;
+  background:#ff6ec7;
   color:white;
   font-size:16px;
-  backdrop-filter: blur(10px);
-  transition:0.3s;
+  cursor:pointer;
+  opacity:0;
+  animation:fadeIn 1s forwards;
+  animation-delay:0.5s;
 }
 
-button:hover{
-  background:rgba(255,255,255,0.3);
+/* Анимация */
+@keyframes fadeIn{
+  to{opacity:1;}
 }
 
-#noBtn{
-  position:relative;
-}
-
-.glow{
-  text-shadow:0 0 20px rgba(255,100,200,0.8);
-}
-
-.particles{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.particle{
-  position:absolute;
-  font-size:20px;
-  animation:floatUp 4s linear forwards;
-}
-
-@keyframes floatUp{
-  from{
-    transform:translateY(100vh);
-    opacity:1;
-  }
-  to{
-    transform:translateY(-20vh);
-    opacity:0;
-  }
-}
+/* Скрытие экранов */
+.screen{display:none}
+.show{display:flex}
 </style>
 </head>
 
 <body>
 
-<div class="particles" id="particles"></div>
-
-<div id="s1" class="screen show">
-  <h2>У меня есть для тебя один вопрос...</h2>
+<div id="s1" class="screen show container">
+  <div class="text">У меня есть для тебя один вопрос...</div>
   <button onclick="next(2)">Дальше</button>
 </div>
 
-<div id="s2" class="screen">
-  <h2>Ты готов?</h2>
+<div id="s2" class="screen container">
+  <div class="text">Ты готов?</div>
   <button onclick="next(3)">Да</button>
   <button id="noBtn">Нет</button>
 </div>
 
-<div id="s3" class="screen">
-  <h2>Кто ты для меня?</h2>
-  <button onclick="wrong()">Друг</button>
-  <button onclick="wrong()">Знакомый</button>
-  <button onclick="wrong()">Случайный человек</button>
+<div id="s3" class="screen container">
+  <div class="text">Кто ты для меня?</div>
+  <button onclick="finish()">Друг</button>
+  <button onclick="finish()">Знакомый</button>
+  <button onclick="finish()">Случайный</button>
 </div>
 
-<div id="s4" class="screen">
-  <h2>Неправильный ответ...</h2>
-</div>
-
-<div id="s5" class="screen">
-  <h2 class="glow">Ты — очень важный человек для меня 💖</h2>
+<div id="s4" class="screen container">
+  <div class="text">Ты — очень важный человек для меня 💖</div>
 </div>
 
 <script>
@@ -130,35 +88,19 @@ function next(n){
   document.getElementById('s'+n).classList.add('show');
 }
 
-function wrong(){
+function finish(){
   next(4);
-  setTimeout(()=>{
-    next(5);
-    createParticles();
-  },2000);
 }
 
 const noBtn = document.getElementById('noBtn');
-
 noBtn.addEventListener('click',()=>{
   noBtn.style.position='absolute';
   noBtn.style.left=Math.random()*80+'%';
   noBtn.style.top=Math.random()*80+'%';
 });
-
-function createParticles(){
-  const box=document.getElementById('particles');
-  for(let i=0;i<40;i++){
-    const p=document.createElement('div');
-    p.className='particle';
-    p.textContent=Math.random()>0.5?'💖':'✨';
-    p.style.left=Math.random()*100+'vw';
-    p.style.animationDelay=Math.random()*2+'s';
-    box.appendChild(p);
-    setTimeout(()=>p.remove(),4000);
-  }
-}
 </script>
 
+</body>
+</html>
 </body>
 </html>
